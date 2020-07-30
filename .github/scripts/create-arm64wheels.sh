@@ -1,1 +1,1 @@
-/opt/_internal/cpython-3.6*/bin/python -V
+/opt/_internal/cpython-$1*/bin/python -V
