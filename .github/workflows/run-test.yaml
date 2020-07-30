@@ -64,7 +64,7 @@ jobs:
     steps:
       - uses: actions/checkout@v2
       - run: |
-          docker run --rm --privileged qemu/aarch64:latest --reset
+          docker run --rm --privileged multiarch/qemu-user-static:x86_64-aarch64 --reset
       - uses: docker://quay.io/pypa/manylinux2014_aarch64
         with:
           args: bash -c "uname -m"
