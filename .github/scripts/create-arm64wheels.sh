@@ -1,3 +1,3 @@
-/opt/_internal/cpython-$1*/bin/python -V
-alias python=/opt/_internal/cpython-$1*/bin/python
-$python -V
+Python_path=/opt/_internal/cpython-$1*/bin
+export PATH=$Python_path:$PATH
+python -V
