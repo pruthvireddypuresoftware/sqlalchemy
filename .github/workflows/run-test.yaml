@@ -64,6 +64,5 @@ jobs:
     steps:
       - uses: actions/checkout@v2
       - run: |
-          docker run --rm --privileged hypriot/qemu-register --reset
-          sudo apt-get install qemu-system-arm qemu-user
+          docker run --rm --privileged hypriot/qemu-register
           docker run --name quayiopypamanylinux2014_aarch64_05103e --workdir /github/workspace --rm -e TOX_WORKERS -e INPUT_ARGS -v "/var/run/docker.sock":"/var/run/docker.sock" -v "/home/runner/work/_temp/_github_home":"/github/home" -v "/home/runner/work/_temp/_github_workflow":"/github/workflow" -v "/home/runner/work/sqlalchemy/sqlalchemy":"/github/workspace" quay.io/pypa/manylinux2014_aarch64 bash -c "uname -m"
