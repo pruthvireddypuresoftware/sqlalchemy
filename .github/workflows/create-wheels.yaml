@@ -2,6 +2,9 @@ name: Create wheel
 
 on:
   # run when a release has been created
+  push:
+    branches: 
+      - master
   release:
     types: [created]
 
