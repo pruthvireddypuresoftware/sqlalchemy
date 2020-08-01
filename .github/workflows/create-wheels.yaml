@@ -334,8 +334,7 @@ jobs:
         run: |
           (cat setup.cfg) | %{$_ -replace "tag_build.?=.?dev",""} | set-content setup.cfg
 
-      - name: Create wheel for manylinux
-        run: |
+      - run: |
             docker run --rm --privileged hypriot/qemu-register
         # this step uses the image provided by pypa here https://github.com/pypa/manylinux to generate the wheels on linux
         # the action uses the image for manylinux2010 but can generate also a manylinux1 wheel
