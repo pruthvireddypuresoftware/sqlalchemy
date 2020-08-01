@@ -79,7 +79,7 @@ jobs:
           # Create the wheel using --no-use-pep517 since locally we have pyproject
           # This flag should be removed once sqlalchemy supports pep517
           # `--no-deps` is used to only generate the wheel for the current library. Redundant in sqlalchemy since it has no dependencies
-          pip-wheel-args: "--no-use-pep517 -v --no-deps -w ./wheelhouse"
+          pip-wheel-args: "--no-use-pep517 -v --no-deps"
 
       - name: Check created wheel
         # check that the wheel is compatible with the current installation.
@@ -172,7 +172,7 @@ jobs:
           # Create the wheel using --no-use-pep517 since locally we have pyproject
           # This flag should be removed once sqlalchemy supports pep517
           # `--no-deps` is used to only generate the wheel for the current library. Redundant in sqlalchemy since it has no dependencies
-          pip-wheel-args: "--no-use-pep517 -v --no-deps"
+          pip-wheel-args: "--no-use-pep517 -v --no-deps -w ./wheelhouse"
 
         # check that the wheel is compatible with the current installation.
         # If it is then does:
