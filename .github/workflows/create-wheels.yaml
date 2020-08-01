@@ -287,7 +287,7 @@ jobs:
           twine upload --skip-existing wheelhouse/*manylinux*
 
   make-wheel-linux-arm64:
-    name: ${{ matrix.python-version }}-${{ matrix.architecture }}-${{ matrix.os }}
+    name: ${{ matrix.python-version }}-arm64-${{ matrix.os }}
     runs-on: ${{ matrix.os }}
     strategy:
       matrix:
@@ -337,9 +337,6 @@ jobs:
       - uses: actions/checkout@v2
       - run: |
             docker run --rm --privileged hypriot/qemu-register
-        # this step uses the image provided by pypa here https://github.com/pypa/manylinux to generate the wheels on linux
-        # the action uses the image for manylinux2010 but can generate also a manylinux1 wheel
-        # change the tag of this image to change the image used
         # NOTE: the output folder is "wheelhouse", not the classic "dist"
       - uses: RalfG/python-wheels-manylinux-build@v0.3.1-manylinux2014_aarch64
         # this action generates 3 wheels in wheelhouse/. linux, manylinux1 and manylinux2010
@@ -357,26 +354,4 @@ jobs:
         # - install the created wheel without using the pypi index
         # - check the c extension
         # - runs the tests
-      - uses: docker://quay.io/pypa/manylinux2014_aarch64
-      - with: 
-          args: |
-                bash -c "pip install -q wheel;
-                version=`python -W ignore -c 'from wheel.pep425tags import get_abbr_impl, get_impl_ver, get_abi_tag; print("{0}{1}-{2}".format(get_abbr_impl(), get_impl_ver(), get_abi_tag()))'`;
-                echo Wheel tag ${{ matrix.python-version }}. Installed version $version.;
-                if [[ "${{ matrix.python-version }}" = "$version" ]]; then 
-                  pip install -f wheelhouse --no-index sqlalchemy;
-                  python -c 'from sqlalchemy import cprocessors, cresultproxy, cutils';
-                  pip install pytest pytest-xdist;
-                  pytest -n2 -q test -k 'not MockReconnectTest' --nomemory;
-                else
-                  echo Not compatible. Skipping install.;
-                fi;
-
-      - name: Get wheel names
-        id: wheel-name
-        shell: bash
-        # the wheel creation step generates 3 wheels: linux, manylinux1 and manylinux2010
-        # Pypi accepts only the manylinux versions
-        run: |
-          cd wheelhouse
-          echo ::set-output name=wheel2014::`ls *manylinux2014*`
+      
