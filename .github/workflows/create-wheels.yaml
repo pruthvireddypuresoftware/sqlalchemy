@@ -160,10 +160,12 @@ jobs:
           (cat setup.cfg) | %{$_ -replace "tag_build.?=.?dev",""} | set-content setup.cfg
 
       - uses: actions/checkout@v2
-      - run: |
+      - name: Start qemu
+        run: |
             docker run --rm --privileged hypriot/qemu-register
         # NOTE: the output folder is "wheelhouse", not the classic "dist"
-      - uses: RalfG/python-wheels-manylinux-build@v0.3.1-manylinux2014_aarch64
+      - name: Create wheel for manylinux2014
+        uses: RalfG/python-wheels-manylinux-build@v0.3.1-manylinux2014_aarch64
         # this action generates 3 wheels in wheelhouse/. linux, manylinux1 and manylinux2010
         with:
           # python-versions is the output of the previous step and is in the form <python tag>-<abi tag>. Eg cp37-cp37mu
