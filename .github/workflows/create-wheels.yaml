@@ -179,7 +179,8 @@ jobs:
         # - install the created wheel without using the pypi index
         # - check the c extension
         # - runs the tests
-      - uses: docker://quay.io/pypa/manylinux2014_aarch64
+      - name: Check created wheel
+        uses: docker://quay.io/pypa/manylinux2014_aarch64
         with: 
           args: |
                 bash -c "/opt/python/${{ matrix.python-version }}/bin/pip install virtualenv;
