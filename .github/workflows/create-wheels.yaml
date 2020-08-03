@@ -2,8 +2,8 @@ name: Create wheel
 
 on:
   # run when a release has been created
-  release:
-    types: [created]
+  push:
+    branches: master
 
 env:
   # set this so the sqlalchemy test uses the installed version and not the local one
@@ -184,10 +184,9 @@ jobs:
         uses: docker://quay.io/pypa/manylinux2014_aarch64
         with: 
           args: |
-                bash -c "/opt/python/${{ matrix.python-version }}/bin/pip install virtualenv;
-                /opt/python/${{ matrix.python-version }}/bin/python -m virtualenv .venv;
-                .venv/bin/pip install -f wheelhouse --no-index sqlalchemy;
-                .venv/bin/python -c 'from sqlalchemy import cprocessors, cresultproxy, cutils';
-                .venv/bin/pip install pytest pytest-xdist;
-                .venv/bin/pytest -n2 -q test -k 'not MockReconnectTest' --nomemory;
+                bash -c "export PATH=/opt/python/${{ matrix.python-version }}/bin:$PATH;
+                pip install -f wheelhouse --no-index sqlalchemy;
+                python -c 'from sqlalchemy import cprocessors, cresultproxy, cutils';
+                pip install pytest pytest-xdist;
+                pytest -n2 -q test -k 'not MockReconnectTest' --nomemory;
 
