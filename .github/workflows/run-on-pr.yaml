@@ -46,7 +46,7 @@ jobs:
       - name: Run tests
         run: tox -e github-${{ matrix.build-type }} -- -q --nomemory ${{ matrix.pytest-args }}
   run-test-arm64:
-    name: Testing arm64-python${{ matrix.python-version }}-${{ matrix.build-type }}
+    name: ${{ matrix.python-version }}-${{ matrix.build-type }}-arm64-ubuntu-latest
     runs-on: ubuntu-latest
     strategy:
       matrix:
@@ -61,7 +61,7 @@ jobs:
         run: |
           docker run --rm --privileged hypriot/qemu-register
       - name: Run tests
-        uses: docker://arm64v8/python:3.8
+        uses: docker://arm64v8/python:3.8-buster
         with:
           args: |
                 bash -c "pip install -U pip setuptools tox;
