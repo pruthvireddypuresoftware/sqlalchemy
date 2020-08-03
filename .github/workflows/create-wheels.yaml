@@ -2,9 +2,8 @@ name: Create wheel
 
 on:
   # run when a release has been created
-  push:
-    branches: 
-      - master
+  release:
+    types: [created]
 
 env:
   # set this so the sqlalchemy test uses the installed version and not the local one
